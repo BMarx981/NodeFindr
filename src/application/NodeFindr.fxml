@@ -11,6 +11,7 @@
       <TextArea fx:id="ta1" layoutX="14.0" layoutY="16.0" prefHeight="496.0" prefWidth="264.0" />
       <Line endY="485.0" layoutX="290.0" layoutY="22.0" />
       <TextArea fx:id="ta2" layoutX="300.0" layoutY="15.0" prefHeight="496.0" prefWidth="254.0" />
-      <Label fx:id="lineLabel" layoutX="300.0" layoutY="520.0" prefHeight="17.0" prefWidth="137.0" text="Beginning on line: " />
+      <Label fx:id="lineLabel" layoutX="14.0" layoutY="523.0" prefHeight="17.0" prefWidth="137.0" text="Beginning on line: " />
+      <Button fx:id="fileSelect" layoutX="300.0" layoutY="519.0" mnemonicParsing="false" onAction="#fileButtonPressed" text="File Select" />
    </children>
 </AnchorPane>

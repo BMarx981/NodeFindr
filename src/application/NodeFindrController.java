@@ -1,26 +1,48 @@
 package application;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import org.apache.commons.io.FileUtils;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 public class NodeFindrController implements Initializable {
 	
 	@FXML Label lineLabel = new Label();
 	@FXML TextArea ta1 = new TextArea();
 	@FXML TextArea ta2 = new TextArea();
+	@FXML Button fileSelect = new Button();
+	
+	String fileName = new String();
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {}
 	
-	public void taEntered(ActionEvent e) {
+	public void ta1Entered(ActionEvent e) {
 		ta1.getText();
 	}
 	
+	public void ta2Entered(ActionEvent e) {
+		ta2.getText();
+	}
+	
+	public void fileButtonPressed(ActionEvent e) {
+		FileChooser fc = new FileChooser();
+		fc.setInitialDirectory(FileUtils.getUserDirectory());
+		File f = fc.showOpenDialog((Stage) fileSelect.getParent().getScene().getWindow());
+		if (f != null) {
+			fileName = f.getAbsolutePath();
+			
+		}
+	}
 	
 }
