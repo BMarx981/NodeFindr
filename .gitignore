@@ -1,1 +1,17 @@
+#ignore the bin files.
+/build/
 /bin/
+target/
+
+#OS Files
+*.DS_Store
+
+*.class
+*.classpath
+.gitignore
+
+# Package Files #
+*.war
+*.ear
+*.db
+*.jar
