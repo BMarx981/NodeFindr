@@ -1,7 +1,7 @@
 #ignore the bin files.
 /build/
-/bin/
-target/
+*/bin/
+*target/
 
 #OS Files
 *.DS_Store
