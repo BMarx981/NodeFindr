@@ -41,8 +41,12 @@ public class NodeFindrController implements Initializable {
 		File f = fc.showOpenDialog((Stage) fileSelect.getParent().getScene().getWindow());
 		if (f != null) {
 			fileName = f.getAbsolutePath();
-			
 		}
+	}
+	
+	private String processXMLInput(String fileName) {
+		
+		return fileName;
 	}
 	
 }

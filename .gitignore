@@ -15,4 +15,4 @@
 *.ear
 *.db
 *.jar
-/bin/
+src/application/bin/
