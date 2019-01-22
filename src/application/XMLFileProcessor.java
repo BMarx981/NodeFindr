@@ -63,7 +63,6 @@ public class XMLFileProcessor {
 	
 	public Node findNodeWith(String searchString, Node node) {
 		Node n = null;
-
 		if (!node.hasChildNodes() || node.getTextContent().equals(searchString)) {
 			return n;
 		} else if (node.hasChildNodes()) {
@@ -75,7 +74,7 @@ public class XMLFileProcessor {
 	public ArrayList<Node> findNodesWith(String searchString, Node node) {
 		ArrayList<Node> list = new ArrayList<Node>();
 		for (Node child : iterable(node.getChildNodes())) {
-		
+			
 		}
 		
 		
