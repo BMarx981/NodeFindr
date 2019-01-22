@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import org.apache.commons.io.FileUtils;
+import org.w3c.dom.Node;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -35,6 +36,8 @@ public class NodeFindrController implements Initializable {
 	
 	private String fileName = new String();
 	private String searchNode = new String();
+	ArrayList<Node> nodeList = new ArrayList<Node>();
+	ArrayList<Node> searchList = new ArrayList<Node>();
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -52,18 +55,45 @@ public class NodeFindrController implements Initializable {
 		searchNode = tf.getText();
 	}
 	
+	public void analyzeButtonPressed(ActionEvent e) {
+		if (nodeList == null && searchNode.isEmpty()) {
+			tf.setText("Please enter a value here!");
+		}
+		for (Node n : nodeList) {
+			if (n.getTextContent().contains(searchNode)) {
+				searchList.add(n);
+			}
+		}
+		if (searchList.size() > 0) {
+			print(searchList);
+		}
+	}
+	
 	public void fileButtonPressed(ActionEvent e) {
 		FileChooser fc = new FileChooser();
 		fc.setInitialDirectory(FileUtils.getUserDirectory());
 		File f = fc.showOpenDialog((Stage) fileSelect.getParent().getScene().getWindow());
 		if (f != null) {
 			fileName = f.getAbsolutePath();
+			processSelectedFile(fileName);
 		}
 	}
 	
 	private void processSelectedFile(String fileName) {
-		
-		
+		XMLFileProcessor xp = new XMLFileProcessor();
+		xp.processXMLNodes(fileName);
+		nodeList = xp.getExtractedNodes();
+		print(nodeList);
+	}
+	
+	private void print(ArrayList<Node> list) {
+		if (list != null) {
+			StringBuilder sb = new StringBuilder();
+			for (Node n : list) {
+				sb.append(ta2.getText()).append("\n").append(n.getTextContent());
+			}
+			ta2.setText(sb.toString());
+		}
 	}
 	
 	/************************** Menu bar items ***********************************/

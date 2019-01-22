@@ -8,12 +8,9 @@
 
 <AnchorPane prefHeight="617.0" prefWidth="564.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.NodeFindrController">
    <children>
-      <TextArea fx:id="ta1" layoutX="12.0" layoutY="75.0" prefHeight="496.0" prefWidth="264.0" promptText="Place XML node here" />
-      <Line endY="485.0" layoutX="288.0" layoutY="81.0" />
-      <TextArea fx:id="ta2" layoutX="298.0" layoutY="74.0" prefHeight="496.0" prefWidth="254.0" promptText="Select XML File to analyze" />
-      <Label fx:id="lineLabel" layoutX="12.0" layoutY="582.0" prefHeight="17.0" prefWidth="137.0" text="Beginning on line: " />
-      <Button fx:id="fileSelect" layoutX="298.0" layoutY="578.0" mnemonicParsing="false" onAction="#fileButtonPressed" text="File Select" />
-      <MenuBar fx:id="menuBar" layoutY="2.0" prefHeight="25.0" prefWidth="564.0">
+      <Label fx:id="lineLabel" layoutX="8.0" layoutY="582.0" prefHeight="17.0" prefWidth="137.0" text="Beginning on line: " AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="8.0" />
+      <Button fx:id="fileSelect" layoutX="302.0" layoutY="578.0" mnemonicParsing="false" onAction="#fileButtonPressed" text="File Select" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="193.0" />
+      <MenuBar fx:id="menuBar" layoutY="2.0" prefHeight="25.0" prefWidth="564.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
@@ -32,7 +29,21 @@
           </Menu>
         </menus>
       </MenuBar>
-      <Button fx:id="analyze" layoutX="492.0" layoutY="34.0" mnemonicParsing="false" text="Analyze" />
-      <TextField layoutX="12.0" layoutY="34.0" prefHeight="25.0" prefWidth="470.0" promptText="Enter a node to find" />
+      <Button fx:id="analyze" layoutX="492.0" layoutY="34.0" mnemonicParsing="false" onAction="#analyzeButtonPressed" text="Analyze" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="34.0" />
+      <TextField layoutX="12.0" layoutY="34.0" prefHeight="25.0" prefWidth="470.0" promptText="Enter a node to find" AnchorPane.leftAnchor="8.0" AnchorPane.topAnchor="34.0" />
+      <SplitPane dividerPositions="0.5128205128205128" layoutX="8.0" layoutY="67.0" prefHeight="504.0" prefWidth="548.0" AnchorPane.bottomAnchor="46.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="67.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <TextArea fx:id="ta1" prefHeight="496.0" prefWidth="264.0" promptText="Place XML node here" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <TextArea fx:id="ta2" prefHeight="496.0" prefWidth="254.0" promptText="Select XML File to analyze" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
    </children>
 </AnchorPane>
