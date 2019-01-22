@@ -62,17 +62,7 @@ public class NodeFindrController implements Initializable {
 	}
 	
 	private void processSelectedFile(String fileName) {
-		FileReader fileReader;
-		try {
-			fileReader = new FileReader(fileName);
-			BufferedReader buffer = new BufferedReader(fileReader);
-			String line = buffer.readLine();
-			ArrayList<String> allNodes = new ArrayList<String>();
-			
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
 		
 	}
 	
