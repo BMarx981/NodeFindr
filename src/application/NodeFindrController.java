@@ -14,7 +14,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
@@ -24,7 +23,6 @@ import javafx.stage.Stage;
 
 public class NodeFindrController implements Initializable {
 	
-	@FXML Label lineLabel = new Label();
 	@FXML TextArea ta1 = new TextArea();
 	@FXML TextArea ta2 = new TextArea();
 	@FXML TextField tf = new TextField();
@@ -38,6 +36,7 @@ public class NodeFindrController implements Initializable {
 	private String searchNode = new String();
 	ArrayList<Node> nodeList = new ArrayList<Node>();
 	ArrayList<Node> searchList = new ArrayList<Node>();
+	XMLFileProcessor xp = new XMLFileProcessor();
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -48,7 +47,7 @@ public class NodeFindrController implements Initializable {
 	}
 	
 	public void ta2Entered(ActionEvent e) {
-		ta2.getText();
+		fileButtonPressed(e);
 	}
 	
 	public void tfEntered(ActionEvent e) {
@@ -80,7 +79,6 @@ public class NodeFindrController implements Initializable {
 	}
 	
 	private void processSelectedFile(String fileName) {
-		XMLFileProcessor xp = new XMLFileProcessor();
 		xp.processXMLNodes(fileName);
 		nodeList = xp.getExtractedNodes();
 		print(nodeList);
@@ -102,8 +100,13 @@ public class NodeFindrController implements Initializable {
 	}
 	
 	public void clearItemPressed(ActionEvent e) {
-		
+		ta1.setText("");
+		ta2.setText("");
+		tf.setText("");
+		fileName = new String();
+		searchNode = new String();
+		nodeList = new ArrayList<Node>();
+		searchList = new ArrayList<Node>();
 	}
 
-	
 }
