@@ -57,14 +57,13 @@ public class NodeFindrController implements Initializable {
 	public void analyzeButtonPressed(ActionEvent e) {
 		if (nodeList == null && searchNode.isEmpty()) {
 			tf.setText("Please enter a value here!");
+			return;
 		}
 		for (Node n : nodeList) {
-			if (n.getTextContent().contains(searchNode)) {
-				searchList.add(n);
+			xp.findNodesWith(searchNode, n);
+			if (searchList.size() > 0) {
+				print(searchList);
 			}
-		}
-		if (searchList.size() > 0) {
-			print(searchList);
 		}
 	}
 	

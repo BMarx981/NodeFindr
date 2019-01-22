@@ -61,12 +61,15 @@ public class XMLFileProcessor {
 		return extractedNodes;
 	}
 	
+	/*************************  FindNodesWith function ************************/
 	public Node findNodeWith(String searchString, Node node) {
 		Node n = null;
 		if (!node.hasChildNodes() || node.getTextContent().equals(searchString)) {
 			return n;
 		} else if (node.hasChildNodes()) {
 			n = findNodeWith(searchString, node);
+		} else {
+			n = null;
 		}
 		return n;
 	}
@@ -74,12 +77,16 @@ public class XMLFileProcessor {
 	public ArrayList<Node> findNodesWith(String searchString, Node node) {
 		ArrayList<Node> list = new ArrayList<Node>();
 		for (Node child : iterable(node.getChildNodes())) {
-			
+			Node n = findNodeWith(searchString, child);
+			if (n == null) { continue; }
+			else if (n != null){
+				list.add(n);
+			}
 		}
-		
-		
 		return list;
 	}
+	
+	/*************************  FindNodesWith function ************************/
 	
 	public static Iterable<Node> iterable(final NodeList nodeList) {
 	    return () -> new Iterator<Node>() {
