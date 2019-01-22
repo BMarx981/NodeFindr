@@ -16,3 +16,4 @@
 *.db
 *.jar
 src/application/bin/
+/bin/
