@@ -40,11 +40,20 @@ public class XMLFileProcessor {
 		return processed;
 	}
 	
-	public void processXMLNodes(String fileName) {
+	private DocumentBuilder getBuilder() {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		
+		DocumentBuilder builder = null;
 		try {
-			DocumentBuilder builder = factory.newDocumentBuilder();
+			builder = factory.newDocumentBuilder();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return builder;
+	}
+	
+	public void processXMLNodes(String fileName) {
+		try {
+			DocumentBuilder builder = getBuilder();
 			doc = builder.parse(new File(fileName));
 			doc.normalize();
 			nodes = doc.getElementsByTagName("dataInput");
@@ -76,9 +85,17 @@ public class XMLFileProcessor {
 	
 	public ArrayList<Node> findNodesWith(String searchString, Node node) {
 		ArrayList<Node> list = new ArrayList<Node>();
-		for (Node child : iterable(node.getChildNodes())) {
-			Node n = findNodeWith(searchString, child);
-			if (n == null) { continue; }
+		if (node.hasChildNodes()) {
+			for (Node child : iterable(node.getChildNodes())) {
+				Node n = findNodeWith(searchString, child);
+				if (n == null) { continue; }
+				else if (n != null){
+					list.add(n);
+				}
+			}
+		} else {
+			Node n = findNodeWith(searchString, node);
+			if (n == null) {}
 			else if (n != null){
 				list.add(n);
 			}

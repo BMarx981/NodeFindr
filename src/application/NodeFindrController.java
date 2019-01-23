@@ -55,15 +55,22 @@ public class NodeFindrController implements Initializable {
 	}
 	
 	public void analyzeButtonPressed(ActionEvent e) {
-		if (nodeList == null && searchNode.isEmpty()) {
+		if (searchNode.isEmpty()) {
 			tf.setText("Please enter a value here!");
 			return;
-		}
-		for (Node n : nodeList) {
-			xp.findNodesWith(searchNode, n);
-			if (searchList.size() > 0) {
-				print(searchList);
+		} else if (nodeList == null) {
+			tf.setText("Please select a file to analyze.");
+		} else if (nodeList == null && searchNode.isEmpty()) {
+			tf.setText("Please select a file to analyze and a search value here.");
+		} else {
+			for (Node n : nodeList) {
+				xp.findNodesWith(searchNode, n);
 			}
+		}
+		if (searchList.size() == 0) {
+			tf.setText("No matching nodes found.");
+		} else if (searchList.size() > 0) {
+			print(searchList);
 		}
 	}
 	
