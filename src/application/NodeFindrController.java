@@ -38,10 +38,12 @@ public class NodeFindrController implements Initializable {
 	ArrayList<Node> searchList = new ArrayList<Node>();
 	XMLFileProcessor xp = new XMLFileProcessor();
 	
+	boolean toggleOn = false;
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		toggle.selectedProperty().addListener((observable, oldValue, newValue) -> {
-			//:TO-DO
+			toggleOn = !toggleOn;
 		});
 	}
 	
