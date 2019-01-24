@@ -14,7 +14,7 @@ public class Main extends Application {
 			AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("NodeFindr.fxml"));
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			primaryStage.setOpacity(0.96);
+			primaryStage.setOpacity(0.90);
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch(Exception e) {

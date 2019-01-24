@@ -1,13 +1,12 @@
 package application;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import org.apache.commons.io.FileUtils;
+import org.controlsfx.control.ToggleSwitch;
 import org.w3c.dom.Node;
 
 import javafx.event.ActionEvent;
@@ -31,6 +30,7 @@ public class NodeFindrController implements Initializable {
 	@FXML MenuBar menuBar = new MenuBar();
 	@FXML MenuItem saveItem = new MenuItem();
 	@FXML MenuItem clearItem = new MenuItem(); 
+	@FXML ToggleSwitch toggle = new ToggleSwitch();
 	
 	private String fileName = new String();
 	private String searchNode = new String();
@@ -40,6 +40,9 @@ public class NodeFindrController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		toggle.selectedProperty().addListener((observable, oldValue, newValue) -> {
+			//:TO-DO
+		});
 	}
 	
 	public void ta1Entered(ActionEvent e) {
@@ -55,18 +58,21 @@ public class NodeFindrController implements Initializable {
 	}
 	
 	public void analyzeButtonPressed(ActionEvent e) {
-		if (searchNode.isEmpty()) {
+		searchNode = tf.getText();
+		ArrayList<Node> foundList = new ArrayList<Node>();
+		if (!searchNode.isEmpty() && nodeList.size() > 0) {
+			for (Node n : nodeList) {
+				foundList.addAll(xp.findNodesWith(searchNode, n));
+			}
+		} else if (searchNode.isEmpty()) {
 			tf.setText("Please enter a value here!");
 			return;
-		} else if (nodeList == null) {
+		} else if (nodeList.size() == 0) {
 			tf.setText("Please select a file to analyze.");
-		} else if (nodeList == null && searchNode.isEmpty()) {
+		} else if (nodeList.size() == 0 && searchNode.isEmpty()) {
 			tf.setText("Please select a file to analyze and a search value here.");
-		} else {
-			for (Node n : nodeList) {
-				xp.findNodesWith(searchNode, n);
-			}
 		}
+		
 		if (searchList.size() == 0) {
 			tf.setText("No matching nodes found.");
 		} else if (searchList.size() > 0) {
@@ -85,6 +91,8 @@ public class NodeFindrController implements Initializable {
 	}
 	
 	private void processSelectedFile(String fileName) {
+		ta2.clear();
+		nodeList.clear();
 		xp.processXMLNodes(fileName);
 		nodeList = xp.getExtractedNodes();
 		print(nodeList);
@@ -94,7 +102,7 @@ public class NodeFindrController implements Initializable {
 		if (list != null) {
 			StringBuilder sb = new StringBuilder();
 			for (Node n : list) {
-				sb.append(ta2.getText()).append("\n").append(n.getTextContent());
+				sb.append(ta2.getText()).append("\n").append(xp.xmlToString(n, true, true));
 			}
 			ta2.setText(sb.toString());
 		}
