@@ -96,6 +96,8 @@ public class XMLFileProcessor {
 		return extractedNodes;
 	}
 	
+	/*************************  FindNodesWith function ************************/
+	
 	public boolean findNodeWithProcess(String searchString, Node node) {
 		if (!node.hasChildNodes() && node.getTextContent().equals(searchString)) {
 			return true;
@@ -111,7 +113,7 @@ public class XMLFileProcessor {
 		return false;
 	}
 	
-	/*************************  FindNodesWith function ************************/
+
 	public Node findNodeWith(String searchString, Node node) {
 		Node n = null;
 		if (!node.hasChildNodes() || node.getTextContent().equals(searchString)) {
