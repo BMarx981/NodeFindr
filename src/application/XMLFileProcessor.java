@@ -63,15 +63,29 @@ public class XMLFileProcessor {
 		return builder;
 	}
 	
-	public void processXMLNodes(String fileName) {
+	public void processXMLNodes(String fileName, String searchString, boolean content) {
 		try {
 			DocumentBuilder builder = getBuilder();
 			doc = builder.parse(new File(fileName));
 			doc.normalize();
 			nodes = doc.getElementsByTagName("dataInput");
-			
-			for (Node item : iterable(nodes)) {
-				extractedNodes.add(item);
+
+			if (searchString.equals("")) {				
+				for (Node item : iterable(nodes)) {
+					extractedNodes.add(item);
+				}
+			} else if (content) {
+				for (Node item : iterable(nodes)) {
+					if (findNodeWithProcess(searchString,item)) {
+						extractedNodes.add(item);
+					}
+				}
+			} else if (!content) {
+				for (Node item : iterable(nodes)) {
+					if (findNodeWithProcess(searchString,item)) {
+						extractedNodes.add(item);
+					}
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -80,6 +94,21 @@ public class XMLFileProcessor {
 	
 	public ArrayList<Node> getExtractedNodes() {
 		return extractedNodes;
+	}
+	
+	public boolean findNodeWithProcess(String searchString, Node node) {
+		if (!node.hasChildNodes() && node.getTextContent().equals(searchString)) {
+			return true;
+		}
+		if (node.hasChildNodes()) {
+			for(Node item : iterable(node.getChildNodes())) {
+				if(!findNodeWithProcess(searchString, item)) {
+					continue;
+				}
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/*************************  FindNodesWith function ************************/

@@ -38,10 +38,12 @@ public class NodeFindrController implements Initializable {
 	ArrayList<Node> searchList = new ArrayList<Node>();
 	XMLFileProcessor xp = new XMLFileProcessor();
 	
+	boolean isToggled = false;
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		toggle.selectedProperty().addListener((observable, oldValue, newValue) -> {
-			//:TO-DO
+			isToggled = !isToggled;
 		});
 	}
 	
@@ -81,6 +83,7 @@ public class NodeFindrController implements Initializable {
 	}
 	
 	public void fileButtonPressed(ActionEvent e) {
+		searchNode = tf.getText();
 		FileChooser fc = new FileChooser();
 		fc.setInitialDirectory(FileUtils.getUserDirectory());
 		File f = fc.showOpenDialog((Stage) fileSelect.getParent().getScene().getWindow());
@@ -93,7 +96,7 @@ public class NodeFindrController implements Initializable {
 	private void processSelectedFile(String fileName) {
 		ta2.clear();
 		nodeList.clear();
-		xp.processXMLNodes(fileName);
+		xp.processXMLNodes(fileName, searchNode, isToggled);
 		nodeList = xp.getExtractedNodes();
 		print(nodeList);
 	}
