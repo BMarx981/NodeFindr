@@ -38,10 +38,12 @@ public class NodeFindrController implements Initializable {
 	ArrayList<Node> searchList = new ArrayList<Node>();
 	XMLFileProcessor xp = new XMLFileProcessor();
 	
+	boolean toggleOn = false;
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		toggle.selectedProperty().addListener((observable, oldValue, newValue) -> {
-			//:TO-DO
+			toggleOn = !toggleOn;
 		});
 	}
 	
@@ -59,11 +61,12 @@ public class NodeFindrController implements Initializable {
 	
 	public void analyzeButtonPressed(ActionEvent e) {
 		searchNode = tf.getText();
-		ArrayList<Node> foundList = new ArrayList<Node>();
-		if (!searchNode.isEmpty() && nodeList.size() > 0) {
-			for (Node n : nodeList) {
-				foundList.addAll(xp.findNodesWith(searchNode, n));
-			}
+//		ArrayList<Node> foundList = new ArrayList<Node>();
+		if (!searchNode.isEmpty()) {
+			xp.processXMLNodes(fileName, searchNode);
+//			for (Node n : nodeList) {
+//				foundList.addAll(xp.findNodesWith(searchNode, n));
+//			}
 		} else if (searchNode.isEmpty()) {
 			tf.setText("Please enter a value here!");
 			return;
@@ -93,9 +96,10 @@ public class NodeFindrController implements Initializable {
 	private void processSelectedFile(String fileName) {
 		ta2.clear();
 		nodeList.clear();
-		xp.processXMLNodes(fileName);
+//		xp.processXMLNodes(fileName);
 		nodeList = xp.getExtractedNodes();
-		print(nodeList);
+		ta2.setText(xp.processStringXML(fileName));
+//		print(nodeList);
 	}
 	
 	private void print(ArrayList<Node> list) {

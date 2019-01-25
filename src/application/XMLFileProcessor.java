@@ -63,14 +63,18 @@ public class XMLFileProcessor {
 		return builder;
 	}
 	
-	public void processXMLNodes(String fileName) {
+	public void processXMLNodes(String fileName, String searchString) {
+		ArrayList<Node> foundList = new ArrayList<Node>();
 		try {
 			DocumentBuilder builder = getBuilder();
 			doc = builder.parse(new File(fileName));
 			doc.normalize();
-			nodes = doc.getElementsByTagName("dataInput");
-			
+			nodes = doc.getElementsByTagName("*");
+
 			for (Node item : iterable(nodes)) {
+				if (item.getNodeType() == Node.ELEMENT_NODE) {
+					System.out.println("item name = " + item.getNodeName());
+				}
 				extractedNodes.add(item);
 			}
 		} catch (Exception e) {
