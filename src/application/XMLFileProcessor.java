@@ -86,13 +86,33 @@ public class XMLFileProcessor {
 	public Node findNodeWith(String searchString, Node node) {
 		Node n = null;
 		if (!node.hasChildNodes() || node.getTextContent().equals(searchString)) {
-			return n;
+			return node;
 		} else if (node.hasChildNodes()) {
-			n = findNodeWith(searchString, node);
+			ArrayList<Node> children = new ArrayList<Node>();
+			for (Node child : iterable(node.getChildNodes())) {
+				children.add(child);
+			}
+			n = node;
 		} else {
 			n = null;
 		}
 		return n;
+	}
+	
+	public boolean hasData(String searchString, Node node) {
+		boolean isThere = false;
+		if (node.getTextContent().equals(searchString)) {
+			isThere = true;
+		} else if (node.hasChildNodes()) {
+			for (Node child : iterable(node.getChildNodes())) {
+				if (hasData(searchString, child)) { 
+					return true;
+				}
+			}
+		} else if (!node.getTextContent().equals(searchString)) {
+			isThere = false;
+		}
+		return isThere; 
 	}
 	
 	public ArrayList<Node> findNodesWith(String searchString, Node node) {
@@ -101,8 +121,8 @@ public class XMLFileProcessor {
 			for (Node child : iterable(node.getChildNodes())) {
 				Node n = findNodeWith(searchString, child);
 				if (n == null) { continue; }
-				else if (n != null){
-					list.add(n);
+				else if (n != null && n.getTextContent().equals(searchString)){
+					list.add(node);
 				}
 			}
 		} else {

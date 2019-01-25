@@ -61,10 +61,12 @@ public class NodeFindrController implements Initializable {
 	
 	public void analyzeButtonPressed(ActionEvent e) {
 		searchNode = tf.getText();
-		ArrayList<Node> foundList = new ArrayList<Node>();
+		searchList.clear();
 		if (!searchNode.isEmpty() && nodeList.size() > 0) {
 			for (Node n : nodeList) {
-				foundList.addAll(xp.findNodesWith(searchNode, n));
+				if (xp.hasData(searchNode, n)) {
+					searchList.add(n);
+				}
 			}
 		} else if (searchNode.isEmpty()) {
 			tf.setText("Please enter a value here!");
@@ -92,6 +94,8 @@ public class NodeFindrController implements Initializable {
 		}
 	}
 	
+	/************************** Private Functions *********************************/
+	
 	private void processSelectedFile(String fileName) {
 		ta2.clear();
 		nodeList.clear();
@@ -110,7 +114,7 @@ public class NodeFindrController implements Initializable {
 		}
 	}
 	
-	/************************** Menu bar items ***********************************/
+	/************************** Menu bar items ************************************/
 	public void saveItemPressed(ActionEvent e) {
 		
 	}
