@@ -62,6 +62,8 @@ public class NodeFindrController implements Initializable {
 	public void analyzeButtonPressed(ActionEvent e) {
 		searchNode = tf.getText();
 		ArrayList<Node> foundList = new ArrayList<Node>();
+		xp.processXMLNodes(fileName, searchNode, isToggled);
+		nodeList = xp.getExtractedNodes();
 		if (!searchNode.isEmpty() && nodeList.size() > 0) {
 			for (Node n : nodeList) {
 				foundList.addAll(xp.findNodesWith(searchNode, n));
@@ -96,7 +98,7 @@ public class NodeFindrController implements Initializable {
 	private void processSelectedFile(String fileName) {
 		ta2.clear();
 		nodeList.clear();
-		xp.processXMLNodes(fileName, searchNode, isToggled);
+		
 		nodeList = xp.getExtractedNodes();
 		print(nodeList);
 	}
