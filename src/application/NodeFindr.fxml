@@ -18,6 +18,9 @@
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Clear">
+            <items>
+              <MenuItem fx:id="clearItem" onAction="#clearItemPressed" mnemonicParsing="false" text="Clear" />
+            </items>
           </Menu>
         </menus>
       </MenuBar>
