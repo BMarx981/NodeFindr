@@ -97,7 +97,8 @@ public class NodeFindrController implements Initializable {
 		nodeList.clear();
 		xp.processXMLNodes(fileName);
 		nodeList = xp.getExtractedNodes();
-		print(nodeList);
+		ta2.setText(xp.processStringXML(fileName));
+//		print(nodeList);
 	}
 	
 	private void print(ArrayList<Node> list) {
