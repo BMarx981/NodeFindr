@@ -13,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
@@ -31,11 +32,11 @@ public class NodeFindrController implements Initializable {
 	@FXML MenuItem saveItem = new MenuItem();
 	@FXML MenuItem clearItem = new MenuItem(); 
 	@FXML ToggleSwitch toggle = new ToggleSwitch();
+	@FXML Label toggleLabel = new Label();
 	
 	private String fileName = new String();
 	private String searchNode = new String();
 	ArrayList<Node> nodeList = new ArrayList<Node>();
-	ArrayList<Node> searchList = new ArrayList<Node>();
 	XMLFileProcessor xp = new XMLFileProcessor();
 	
 	boolean isToggled = false;
@@ -44,6 +45,7 @@ public class NodeFindrController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		toggle.selectedProperty().addListener((observable, oldValue, newValue) -> {
 			isToggled = !isToggled;
+			changeToggleLabel();
 		});
 	}
 	
@@ -61,26 +63,16 @@ public class NodeFindrController implements Initializable {
 	
 	public void analyzeButtonPressed(ActionEvent e) {
 		searchNode = tf.getText();
-		ArrayList<Node> foundList = new ArrayList<Node>();
 		xp.processXMLNodes(fileName, searchNode, isToggled);
 		nodeList = xp.getExtractedNodes();
-		if (!searchNode.isEmpty() && nodeList.size() > 0) {
-			for (Node n : nodeList) {
-				foundList.addAll(xp.findNodesWith(searchNode, n));
-			}
-		} else if (searchNode.isEmpty()) {
-			tf.setText("Please enter a value here!");
-			return;
-		} else if (nodeList.size() == 0) {
-			tf.setText("Please select a file to analyze.");
-		} else if (nodeList.size() == 0 && searchNode.isEmpty()) {
-			tf.setText("Please select a file to analyze and a search value here.");
-		}
 		
-		if (searchList.size() == 0) {
+		if (fileName.equals("")) {
+			tf.setText("Please select a file to analyze");
+		} else if (nodeList.size() == 0) {
 			tf.setText("No matching nodes found.");
-		} else if (searchList.size() > 0) {
-			print(searchList);
+		} else if (nodeList.size() > 0) {
+			ta2.setText(nodeList.size() + " nodes found.");
+			print(nodeList);
 		}
 	}
 	
@@ -95,12 +87,18 @@ public class NodeFindrController implements Initializable {
 		}
 	}
 	
+	private void changeToggleLabel() {
+		if (isToggled) {
+			toggleLabel.setText("Content");
+		} else {
+			toggleLabel.setText("Node");
+		}
+	}
+	
 	private void processSelectedFile(String fileName) {
 		ta2.clear();
 		nodeList.clear();
-		
-		nodeList = xp.getExtractedNodes();
-		print(nodeList);
+		ta2.setText(xp.processStringXML(fileName));
 	}
 	
 	private void print(ArrayList<Node> list) {
@@ -125,7 +123,6 @@ public class NodeFindrController implements Initializable {
 		fileName = new String();
 		searchNode = new String();
 		nodeList = new ArrayList<Node>();
-		searchList = new ArrayList<Node>();
 	}
 
 }
