@@ -74,13 +74,14 @@ public class XMLFileProcessor {
 				for (Node item : iterable(nodes)) {
 					extractedNodes.add(item);
 				}
-			} else if (content) {
+			} else if (!content) {
 				for (Node item : iterable(nodes)) {
+					System.out.println(item.getNodeName());
 					if (findNodeWithProcess(searchString,item)) {
 						extractedNodes.add(item);
 					}
 				}
-			} else if (!content) {
+			} else if (content) {
 				for (Node item : iterable(nodes)) {
 					if (findContentWithProcess(searchString,item)) {
 						extractedNodes.add(item);
@@ -99,7 +100,8 @@ public class XMLFileProcessor {
 	/*************************  FindNodesWith function ************************/
 	
 	public boolean findNodeWithProcess(String searchString, Node node) {
-		if (!node.hasChildNodes() && node.getTextContent().equals(searchString)) {
+		System.out.println(node.getNodeName());
+		if (!node.hasChildNodes() && node.getNodeName().equals(searchString)) {
 			return true;
 		}
 		if (node.hasChildNodes()) {
@@ -119,7 +121,7 @@ public class XMLFileProcessor {
 		}
 		if (node.hasChildNodes()) {
 			for(Node item : iterable(node.getChildNodes())) {
-				if(!findNodeWithProcess(searchString, item)) {
+				if(!findContentWithProcess(searchString, item)) {
 					continue;
 				}
 				return true;
