@@ -76,7 +76,6 @@ public class XMLFileProcessor {
 				}
 			} else if (!content) {
 				for (Node item : iterable(nodes)) {
-					System.out.println(item.getNodeName());
 					if (findNodeWithProcess(searchString,item)) {
 						extractedNodes.add(item);
 					}
@@ -100,7 +99,7 @@ public class XMLFileProcessor {
 	/*************************  FindNodesWith function ************************/
 	
 	public boolean findNodeWithProcess(String searchString, Node node) {
-		System.out.println(node.getNodeName());
+		System.out.print(node.getNodeName().equals("#text") ? "" : (node.getNodeName() + "\n"));
 		if (!node.hasChildNodes() && node.getNodeName().equals(searchString)) {
 			return true;
 		}
@@ -130,9 +129,9 @@ public class XMLFileProcessor {
 		return false;
 	}
 	
-	/*************************  FindNodesWith function ************************/
+	/*************************  Iterable inner class ************************/
 	
-	public static Iterable<Node> iterable(final NodeList nodeList) {
+	public Iterable<Node> iterable(final NodeList nodeList) {
 	    return () -> new Iterator<Node>() {
 
 	        private int index = 0;
