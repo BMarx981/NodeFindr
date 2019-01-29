@@ -6,12 +6,33 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="562.0" prefWidth="564.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.NodeFindrController">
+<AnchorPane prefHeight="617.0" prefWidth="564.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.NodeFindrController">
    <children>
-      <TextArea fx:id="ta1" layoutX="14.0" layoutY="16.0" prefHeight="496.0" prefWidth="264.0" />
-      <Line endY="485.0" layoutX="290.0" layoutY="22.0" />
-      <TextArea fx:id="ta2" layoutX="300.0" layoutY="15.0" prefHeight="496.0" prefWidth="254.0" />
-      <Label fx:id="lineLabel" layoutX="14.0" layoutY="523.0" prefHeight="17.0" prefWidth="137.0" text="Beginning on line: " />
-      <Button fx:id="fileSelect" layoutX="300.0" layoutY="519.0" mnemonicParsing="false" onAction="#fileButtonPressed" text="File Select" />
+      <TextArea fx:id="ta1" layoutX="12.0" layoutY="75.0" prefHeight="496.0" prefWidth="264.0" promptText="Place XML node here" />
+      <Line endY="485.0" layoutX="288.0" layoutY="81.0" />
+      <TextArea fx:id="ta2" layoutX="298.0" layoutY="74.0" prefHeight="496.0" prefWidth="254.0" promptText="Select XML File to analyze" />
+      <Label fx:id="lineLabel" layoutX="12.0" layoutY="582.0" prefHeight="17.0" prefWidth="137.0" text="Beginning on line: " />
+      <Button fx:id="fileSelect" layoutX="298.0" layoutY="578.0" mnemonicParsing="false" onAction="#fileButtonPressed" text="File Select" />
+      <MenuBar fx:id="menuBar" layoutY="2.0" prefHeight="25.0" prefWidth="564.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem fx:id="saveItem" mnemonicParsing="false" text="Save" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem fx:id="clearItem" mnemonicParsing="false" text="Clear" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <Button fx:id="analyze" layoutX="492.0" layoutY="34.0" mnemonicParsing="false" text="Analyze" />
+      <TextField layoutX="12.0" layoutY="34.0" prefHeight="25.0" prefWidth="470.0" promptText="Enter a node to find" />
    </children>
 </AnchorPane>
