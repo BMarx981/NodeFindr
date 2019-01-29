@@ -92,13 +92,7 @@ public class XMLFileProcessor {
 	/*************************  FindWith functions ************************/
 	
 	public boolean findNodeWithProcess(String searchString, Node node) {
-<<<<<<< HEAD
-		System.out.print(node.getNodeName().equals("#text") ? "" : (node.getNodeName() + "\n"));
-		if (!node.hasChildNodes() && node.getNodeName().equals(searchString)) {
-=======
-		System.out.println(node.getNodeName().toString());
 		if (node.getNodeName().equals(searchString)) {
->>>>>>> branch 'splitPane' of https://github.com/BMarx981/NodeFindr.git
 			return true;
 		}
 		if (node.hasChildNodes()) {
