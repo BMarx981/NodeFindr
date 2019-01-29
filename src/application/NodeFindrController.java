@@ -71,7 +71,7 @@ public class NodeFindrController implements Initializable {
 		} else if (nodeList.size() == 0) {
 			tf.setText("No matching nodes found.");
 		} else if (nodeList.size() > 0) {
-			ta2.setText(nodeList.size() + " nodes found.");
+			ta2.setText(nodeList.size() + " out of " + xp.getNodesCount() + " nodes found.");
 			print(nodeList);
 		}
 	}

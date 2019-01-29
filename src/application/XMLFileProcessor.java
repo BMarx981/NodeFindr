@@ -52,17 +52,6 @@ public class XMLFileProcessor {
 		return processed;
 	}
 	
-	private DocumentBuilder getBuilder() {
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder builder = null;
-		try {
-			builder = factory.newDocumentBuilder();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return builder;
-	}
-	
 	public void processXMLNodes(String fileName, String searchString, boolean content) {
 		try {
 			DocumentBuilder builder = getBuilder();
@@ -96,7 +85,11 @@ public class XMLFileProcessor {
 		return extractedNodes;
 	}
 	
-	/*************************  FindNodesWith function ************************/
+	public int getNodesCount() {
+		return nodes.getLength();
+	}
+	
+	/*************************  FindWith functions ************************/
 	
 	public boolean findNodeWithProcess(String searchString, Node node) {
 		System.out.println(node.getNodeName().toString());
@@ -154,6 +147,7 @@ public class XMLFileProcessor {
 	
 
 	public String xmlToString(Node node, boolean omitXmlDeclaration, boolean prettyPrint) {
+
 		if (node == null) {
 			throw new IllegalArgumentException("node is null.");
 		}
@@ -192,5 +186,17 @@ public class XMLFileProcessor {
 		} catch (XPathExpressionException e) {
 			throw new RuntimeException(e);
 		}
+	}
+	
+	
+	private DocumentBuilder getBuilder() {
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = null;
+		try {
+			builder = factory.newDocumentBuilder();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return builder;
 	}
 }
