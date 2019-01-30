@@ -59,7 +59,7 @@ public class XMLFileProcessor {
 			doc.normalize();
 			nodes = doc.getElementsByTagName("dataInput");
 
-			if (searchString.equals("")) {				
+			if (searchString.equals("")) {
 				for (Node item : iterable(nodes)) {
 					extractedNodes.add(item);
 				}
