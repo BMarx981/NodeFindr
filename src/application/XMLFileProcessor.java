@@ -92,7 +92,6 @@ public class XMLFileProcessor {
 	/*************************  FindWith functions ************************/
 	
 	public boolean findNodeWithProcess(String searchString, Node node) {
-		System.out.println(node.getNodeName().toString());
 		if (node.getNodeName().equals(searchString)) {
 			return true;
 		}
