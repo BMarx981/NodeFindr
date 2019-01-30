@@ -121,9 +121,9 @@ public class XMLFileProcessor {
 		return false;
 	}
 	
-	/*************************  FindNodesWith function ************************/
+	/*************************  Iterable inner class ************************/
 	
-	public static Iterable<Node> iterable(final NodeList nodeList) {
+	public Iterable<Node> iterable(final NodeList nodeList) {
 	    return () -> new Iterator<Node>() {
 
 	        private int index = 0;
