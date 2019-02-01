@@ -65,12 +65,14 @@ public class NodeFindrController implements Initializable {
 		nodeList.clear();
 		searchNode = tf.getText();
 		xp.processXMLNodes(fileName, searchNode, isToggled);
+		nodeList.clear();
 		nodeList = xp.getExtractedNodes();
 		
 		if (fileName.equals("")) {
 			tf.setText("Please select a file to analyze");
 		} else if (nodeList.size() == 0) {
 			tf.setText("No matching nodes found.");
+			ta2.setText("");
 		} else if (nodeList.size() > 0) {
 			ta2.setText(nodeList.size() + " out of " + xp.getNodesCount() + " nodes found.");
 			print(nodeList);
@@ -101,8 +103,9 @@ public class NodeFindrController implements Initializable {
 	private void print(ArrayList<Node> list) {
 		if (list != null) {
 			StringBuilder sb = new StringBuilder();
+			sb.append(nodeList.size() + " out of " + xp.getNodesCount() + " nodes found.");
 			for (Node n : list) {
-				sb.append(ta2.getText()).append("\n").append(xp.xmlToString(n, true, true));
+				sb.append("\n").append(xp.xmlToString(n, true, true));
 			}
 			ta2.setText(sb.toString());
 		}
