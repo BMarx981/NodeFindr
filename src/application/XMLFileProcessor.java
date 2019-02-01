@@ -52,30 +52,29 @@ public class XMLFileProcessor {
 		return processed;
 	}
 	
-	private DocumentBuilder getBuilder() {
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder builder = null;
-		try {
-			builder = factory.newDocumentBuilder();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return builder;
-	}
-	
-	public void processXMLNodes(String fileName, String searchString) {
-		ArrayList<Node> foundList = new ArrayList<Node>();
+	public void processXMLNodes(String fileName, String searchString, boolean content) {
 		try {
 			DocumentBuilder builder = getBuilder();
 			doc = builder.parse(new File(fileName));
 			doc.normalize();
-			nodes = doc.getElementsByTagName("*");
+			nodes = doc.getElementsByTagName("dataInput");
 
-			for (Node item : iterable(nodes)) {
-				if (item.getNodeType() == Node.ELEMENT_NODE) {
-					System.out.println("item name = " + item.getNodeName());
+			if (searchString.equals("")) {				
+				for (Node item : iterable(nodes)) {
+					extractedNodes.add(item);
 				}
-				extractedNodes.add(item);
+			} else if (!content) {
+				for (Node item : iterable(nodes)) {
+					if (findNodeWithProcess(searchString,item)) {
+						extractedNodes.add(item);
+					}
+				}
+			} else if (content) {
+				for (Node item : iterable(nodes)) {
+					if (findContentWithProcess(searchString,item)) {
+						extractedNodes.add(item);
+					}
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -86,43 +85,45 @@ public class XMLFileProcessor {
 		return extractedNodes;
 	}
 	
-	/*************************  FindNodesWith function ************************/
-	public Node findNodeWith(String searchString, Node node) {
-		Node n = null;
-		if (!node.hasChildNodes() || node.getTextContent().equals(searchString)) {
-			return n;
-		} else if (node.hasChildNodes()) {
-			n = findNodeWith(searchString, node);
-		} else {
-			n = null;
-		}
-		return n;
+	public int getNodesCount() {
+		return nodes.getLength();
 	}
 	
-	public ArrayList<Node> findNodesWith(String searchString, Node node) {
-		ArrayList<Node> list = new ArrayList<Node>();
+	/*************************  FindWith functions ************************/
+	
+	public boolean findNodeWithProcess(String searchString, Node node) {
+		if (node.getNodeName().equals(searchString)) {
+			return true;
+		}
 		if (node.hasChildNodes()) {
-			for (Node child : iterable(node.getChildNodes())) {
-				Node n = findNodeWith(searchString, child);
-				if (n == null) { continue; }
-				else if (n != null){
-					list.add(n);
+			for(Node item : iterable(node.getChildNodes())) {
+				if(!findNodeWithProcess(searchString, item)) {
+					continue;
 				}
-			}
-		} else {
-			Node n = findNodeWith(searchString, node);
-			if (n == null) {}
-			else if (n != null){
-				System.out.println(n.toString());
-				list.add(n);
+				return true;
 			}
 		}
-		return list;
+		return false;
 	}
 	
-	/*************************  FindNodesWith function ************************/
+	public boolean findContentWithProcess(String searchString, Node node) {
+		if (!node.hasChildNodes() && node.getTextContent().equals(searchString)) {
+			return true;
+		}
+		if (node.hasChildNodes()) {
+			for(Node item : iterable(node.getChildNodes())) {
+				if(!findContentWithProcess(searchString, item)) {
+					continue;
+				}
+				return true;
+			}
+		}
+		return false;
+	}
 	
-	public static Iterable<Node> iterable(final NodeList nodeList) {
+	/*************************  Iterable inner class ************************/
+	
+	public Iterable<Node> iterable(final NodeList nodeList) {
 	    return () -> new Iterator<Node>() {
 
 	        private int index = 0;
@@ -145,6 +146,7 @@ public class XMLFileProcessor {
 	
 
 	public String xmlToString(Node node, boolean omitXmlDeclaration, boolean prettyPrint) {
+
 		if (node == null) {
 			throw new IllegalArgumentException("node is null.");
 		}
@@ -183,5 +185,17 @@ public class XMLFileProcessor {
 		} catch (XPathExpressionException e) {
 			throw new RuntimeException(e);
 		}
+	}
+	
+	
+	private DocumentBuilder getBuilder() {
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = null;
+		try {
+			builder = factory.newDocumentBuilder();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return builder;
 	}
 }

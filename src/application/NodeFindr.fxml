@@ -19,13 +19,13 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Clear">
             <items>
-              <MenuItem fx:id="clearItem" mnemonicParsing="false" text="Clear" />
+              <MenuItem fx:id="clearItem" mnemonicParsing="false" text="Clear" onAction="#clearItemPressed"/>
             </items>
           </Menu>
         </menus>
       </MenuBar>
       <Button fx:id="analyze" layoutX="492.0" layoutY="34.0" mnemonicParsing="false" onAction="#analyzeButtonPressed" text="Analyze" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="34.0" />
-      <TextField fx:id="tf" layoutX="12.0" layoutY="34.0" onAction="#tfEntered" prefHeight="27.0" prefWidth="402.0" promptText="Enter a node to find" AnchorPane.leftAnchor="8.0" AnchorPane.topAnchor="34.0" />
+      <TextField fx:id="tf" layoutX="12.0" layoutY="34.0" onAction="#tfEntered" prefHeight="27.0" prefWidth="402.0" promptText="Enter a node or some content to find" AnchorPane.leftAnchor="8.0" AnchorPane.topAnchor="34.0" />
       <SplitPane dividerPositions="0.38196601125" layoutX="8.0" layoutY="67.0" prefHeight="504.0" prefWidth="548.0" AnchorPane.bottomAnchor="46.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="67.0">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
@@ -41,5 +41,6 @@
         </items>
       </SplitPane>
       <ToggleSwitch fx:id="toggle" layoutX="435.0" layoutY="38.0" prefHeight="20.0" prefWidth="34.0" AnchorPane.rightAnchor="94.0" AnchorPane.topAnchor="38.0" />
+      <Label fx:id="toggleLabel" layoutX="415.0" layoutY="40.0" text="Node" />
    </children>
 </AnchorPane>
