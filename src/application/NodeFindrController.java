@@ -62,6 +62,7 @@ public class NodeFindrController implements Initializable {
 	}
 	
 	public void analyzeButtonPressed(ActionEvent e) {
+		nodeList.clear();
 		searchNode = tf.getText();
 		xp.processXMLNodes(fileName, searchNode, isToggled);
 		nodeList = xp.getExtractedNodes();
@@ -88,11 +89,7 @@ public class NodeFindrController implements Initializable {
 	}
 	
 	private void changeToggleLabel() {
-		if (isToggled) {
-			toggleLabel.setText("Content");
-		} else {
-			toggleLabel.setText("Node");
-		}
+		toggleLabel.setText(isToggled ? "Content" : "Node");
 	}
 	
 	private void processSelectedFile(String fileName) {
