@@ -54,10 +54,9 @@ public class XMLFileProcessor {
 	
 	public void processXMLNodes(String fileName, String searchString, boolean content) {
 		try {
-			DocumentBuilder builder = getBuilder();
-			doc = builder.parse(new File(fileName));
-			doc.normalize();
+			doc = getDoc(fileName);
 			nodes = doc.getElementsByTagName("dataInput");
+			extractedNodes.clear();
 
 			if (searchString.equals("")) {
 				for (Node item : iterable(nodes)) {
@@ -188,14 +187,18 @@ public class XMLFileProcessor {
 	}
 	
 	
-	private DocumentBuilder getBuilder() {
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder builder = null;
+	private Document getDoc(String fileName) {
+		Document doc = null;
 		try {
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			doc = builder.parse(new File(fileName));
+			doc.normalize();
+
 			builder = factory.newDocumentBuilder();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return builder;
+		return doc;
 	}
 }
