@@ -3,6 +3,7 @@ package application;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -16,6 +17,7 @@ public class Scene2Controller implements Initializable {
 	@FXML private TextFlow flow1 = new TextFlow();
 	@FXML private TextFlow flow2 = new TextFlow();
 	@FXML private Button fileSelectButton = new Button();
+	@FXML private Button compareButton = new Button();
 	@FXML private Label fileNameLable = new Label();
 	@FXML private MenuBar menuBar = new MenuBar();
 	@FXML private MenuItem saveItem = new MenuItem();
@@ -27,6 +29,12 @@ public class Scene2Controller implements Initializable {
 
 	}
 	
+	public void fileButtonPressed(ActionEvent e) {
+		
+	}
 	
+	public void compareButtonPressed(ActionEvent e) {
+		
+	}
 
 }
