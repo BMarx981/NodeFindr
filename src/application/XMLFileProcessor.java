@@ -186,6 +186,9 @@ public class XMLFileProcessor {
 		}
 	}
 	
+	public Document getDocument() {
+		return doc;
+	}
 	
 	private Document getDoc(String fileName) {
 		Document doc = null;

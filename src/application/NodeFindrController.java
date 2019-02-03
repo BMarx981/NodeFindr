@@ -11,7 +11,10 @@ import org.w3c.dom.Node;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
@@ -31,6 +34,7 @@ public class NodeFindrController implements Initializable {
 	@FXML MenuBar menuBar = new MenuBar();
 	@FXML MenuItem saveItem = new MenuItem();
 	@FXML MenuItem clearItem = new MenuItem(); 
+	@FXML MenuItem nextItem = new MenuItem(); 
 	@FXML ToggleSwitch toggle = new ToggleSwitch();
 	@FXML Label toggleLabel = new Label();
 	
@@ -123,6 +127,26 @@ public class NodeFindrController implements Initializable {
 		fileName = new String();
 		searchNode = new String();
 		nodeList = new ArrayList<Node>();
+	}
+	
+	public void nextItemPressed(ActionEvent e) {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("/application/NodeScene2.fxml"));
+			Stage stage = (Stage) fileSelect.getScene().getWindow();
+			Parent root = loader.load();
+			root.getStylesheets().add("application/application.css");
+			Scene setupScene = new Scene(root);
+			stage.setScene(setupScene);
+			stage.setTitle("Compr ");
+			Scene2Controller controller = loader.getController();
+			controller.setDoc(xp.getDocument());
+			stage.show();
+
+		} catch (Exception ex) {
+			System.out.println("scene fail\n" + ex);
+			ex.printStackTrace();
+		}
 	}
 
 }

@@ -19,9 +19,14 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Clear">
             <items>
-              <MenuItem fx:id="clearItem" mnemonicParsing="false" text="Clear" onAction="#clearItemPressed"/>
+              <MenuItem fx:id="clearItem" mnemonicParsing="false" onAction="#clearItemPressed" text="Clear" />
             </items>
           </Menu>
+            <Menu mnemonicParsing="false" text="Next ">
+              <items>
+                <MenuItem fx:id="nextItem" mnemonicParsing="false" onAction="#nextItemPressed" text="Compare" />
+              </items>
+            </Menu>
         </menus>
       </MenuBar>
       <Button fx:id="analyze" layoutX="492.0" layoutY="34.0" mnemonicParsing="false" onAction="#analyzeButtonPressed" text="Analyze" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="34.0" />

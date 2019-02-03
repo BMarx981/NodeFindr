@@ -15,6 +15,7 @@ public class Main extends Application {
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setOpacity(0.98);
+			primaryStage.setTitle("Findr");
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch(Exception e) {
