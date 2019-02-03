@@ -31,9 +31,12 @@ public class Scene2Controller implements Initializable {
 	@FXML private MenuItem findrItem = new MenuItem();
 	
 	private Document doc = null;
+	private String name = "";
+	XMLFileProcessor xp = new XMLFileProcessor();
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		xp.processStringXML(name);
 	}
 	
 	public void compareButtonPressed(ActionEvent e) {
@@ -66,6 +69,10 @@ public class Scene2Controller implements Initializable {
 	
 	public void setDoc(Document doc) {
 		this.doc = doc;
+	}
+	
+	public void setFileName(String name) {
+		this.name = name;
 	}
 
 

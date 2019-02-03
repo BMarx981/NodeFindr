@@ -133,14 +133,16 @@ public class NodeFindrController implements Initializable {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/application/NodeScene2.fxml"));
+			Scene2Controller controller = loader.getController();
+			controller.setDoc(xp.getDocument());
+			controller.setFileName(fileName);
 			Stage stage = (Stage) fileSelect.getScene().getWindow();
 			Parent root = loader.load();
 			root.getStylesheets().add("application/application.css");
 			Scene setupScene = new Scene(root);
 			stage.setScene(setupScene);
 			stage.setTitle("Compr ");
-			Scene2Controller controller = loader.getController();
-			controller.setDoc(xp.getDocument());
+			
 			stage.show();
 
 		} catch (Exception ex) {
