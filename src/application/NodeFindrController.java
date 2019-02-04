@@ -1,6 +1,7 @@
 package application;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -86,7 +87,11 @@ public class NodeFindrController implements Initializable {
 		File f = fc.showOpenDialog((Stage) fileSelect.getParent().getScene().getWindow());
 		if (f != null) {
 			fileName = f.getAbsolutePath();
-			processSelectedFile(fileName);
+			try {
+				processSelectedFile(fileName);
+			} catch (FileNotFoundException e1) {
+				e1.printStackTrace();
+			}
 		}
 	}
 	
@@ -94,7 +99,7 @@ public class NodeFindrController implements Initializable {
 		toggleLabel.setText(isToggled ? "Content" : "Node");
 	}
 	
-	private void processSelectedFile(String fileName) {
+	private void processSelectedFile(String fileName) throws FileNotFoundException {
 		ta2.clear();
 		nodeList.clear();
 		ta2.setText(xp.processStringXML(fileName));

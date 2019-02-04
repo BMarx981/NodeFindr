@@ -2,6 +2,7 @@ package application;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -32,12 +33,11 @@ public class XMLFileProcessor {
 	private Document doc = null;
 	private ArrayList<Node> extractedNodes = new ArrayList<Node>();
 
-	public String processStringXML(String fileName) {
+	public String processStringXML(String fileName) throws FileNotFoundException {
 		FileReader fileReader;
 		String processed = new String();
-		try {
-			fileReader = new FileReader(fileName);
-			BufferedReader buffer = new BufferedReader(fileReader);
+		fileReader = new FileReader(fileName);
+		try (BufferedReader buffer = new BufferedReader(fileReader)){
 			StringBuilder sb = new StringBuilder();
 			String line = buffer.readLine();
 			while((line = buffer.readLine()) != null) {
