@@ -4,11 +4,13 @@ import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.io.FileUtils;
 import org.controlsfx.control.ToggleSwitch;
 import org.w3c.dom.Node;
 
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -97,7 +99,16 @@ public class NodeFindrController implements Initializable {
 	private void processSelectedFile(String fileName) {
 		ta2.clear();
 		nodeList.clear();
-		ta2.setText(xp.processStringXML(fileName));
+		Task<String> finished = xp.backgroundProcess(fileName);
+		try {
+			ta2.setText(finished.get());
+		} catch (InterruptedException e) {
+			System.out.println("That shit was interrupted");
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			System.out.println("That shit was not executed");
+			e.printStackTrace();
+		}
 	}
 	
 	private void print(ArrayList<Node> list) {

@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.StringWriter;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -25,6 +26,17 @@ import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.layout.VBox;
+import javafx.scene.shape.Path;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class XMLFileProcessor {
 	
@@ -186,7 +198,6 @@ public class XMLFileProcessor {
 		}
 	}
 	
-	
 	private Document getDoc(String fileName) {
 		Document doc = null;
 		try {
@@ -200,5 +211,62 @@ public class XMLFileProcessor {
 			e.printStackTrace();
 		}
 		return doc;
+	}
+	
+	public Task<String> backgroundProcess(String fileName){
+
+		ProgressBar pb = new ProgressBar();
+		pb.setPrefWidth(200.0d);
+
+        VBox updatePane = new VBox();
+        updatePane.setPadding(new Insets(10));
+        updatePane.setSpacing(5.0d);
+        updatePane.getChildren().addAll(pb);
+        
+        Stage taskUpdateStage = new Stage(StageStyle.UTILITY);
+        taskUpdateStage.setScene(new Scene(updatePane));
+        taskUpdateStage.setTitle("Loading.");
+        taskUpdateStage.show();
+		
+		Task<String> processTask = new Task<String>() {
+
+			@Override
+			protected String call() throws Exception {
+				FileReader fileReader;
+				String processed = new String();
+				File f  = new File(fileName);
+				long total = Files.size(f.getName());
+				try {
+					fileReader = new FileReader(fileName);
+					BufferedReader buffer = new BufferedReader(fileReader);
+					StringBuilder sb = new StringBuilder();
+					String line = buffer.readLine();
+					while((line = buffer.readLine()) != null) {
+						sb.append(line).append("\n");
+						pb.setProgress(value);
+						processed = sb.toString();
+					}
+					
+					buffer.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				return processed;
+			}
+		};
+		
+//		pb.progressProperty().unbind();
+		pb.progressProperty().bind(processTask.progressProperty());
+		
+		processTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent t) {
+                taskUpdateStage.hide();
+            }
+        });
+		
+		taskUpdateStage.show();
+        new Thread(processTask).start();
+		return processTask;
 	}
 }
