@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.StringWriter;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -27,6 +29,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import javafx.beans.property.Property;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
@@ -34,7 +37,6 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Path;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -215,7 +217,42 @@ public class XMLFileProcessor {
 	
 	public Task<String> backgroundProcess(String fileName){
 
+		Task<String> processTask = new Task<String>() {
+
+			@Override
+			protected String call() throws Exception {
+				FileReader fileReader;
+				String processed = new String();
+				long total = Files.size(Paths.get(fileName));
+				long byteSize = 0;
+				try {
+					fileReader = new FileReader(fileName);
+					BufferedReader buffer = new BufferedReader(fileReader);
+					StringBuilder sb = new StringBuilder();
+					String line = buffer.readLine();
+					
+					while((line = buffer.readLine()) != null) {
+						sb.append(line).append("\n");
+						byteSize += getBytes(line);
+						updateProgress(byteSize, total);
+						processed = sb.toString();
+					}
+					
+					buffer.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				return processed;
+			}
+			
+			protected long getBytes(String line) {
+				byte[] ba = line.getBytes();
+				return ba.length;
+			}
+		};
+		
 		ProgressBar pb = new ProgressBar();
+		pb.progressProperty().bind(processTask.progressProperty());
 		pb.setPrefWidth(200.0d);
 
         VBox updatePane = new VBox();
@@ -226,37 +263,6 @@ public class XMLFileProcessor {
         Stage taskUpdateStage = new Stage(StageStyle.UTILITY);
         taskUpdateStage.setScene(new Scene(updatePane));
         taskUpdateStage.setTitle("Loading.");
-        taskUpdateStage.show();
-		
-		Task<String> processTask = new Task<String>() {
-
-			@Override
-			protected String call() throws Exception {
-				FileReader fileReader;
-				String processed = new String();
-				File f  = new File(fileName);
-				long total = Files.size(f.getName());
-				try {
-					fileReader = new FileReader(fileName);
-					BufferedReader buffer = new BufferedReader(fileReader);
-					StringBuilder sb = new StringBuilder();
-					String line = buffer.readLine();
-					while((line = buffer.readLine()) != null) {
-						sb.append(line).append("\n");
-						pb.setProgress(value);
-						processed = sb.toString();
-					}
-					
-					buffer.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				return processed;
-			}
-		};
-		
-//		pb.progressProperty().unbind();
-		pb.progressProperty().bind(processTask.progressProperty());
 		
 		processTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
             @Override
