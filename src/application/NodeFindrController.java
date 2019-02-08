@@ -134,7 +134,7 @@ public class NodeFindrController implements Initializable {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/application/NodeScene2.fxml"));
 			Scene2Controller controller = loader.getController();
-			controller.setDoc(xp.getDocument());
+			controller.setDoc(xp.getDocument(fileName));
 			controller.setFileName(fileName);
 			Stage stage = (Stage) fileSelect.getScene().getWindow();
 			Parent root = loader.load();

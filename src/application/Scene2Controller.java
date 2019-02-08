@@ -59,7 +59,6 @@ public class Scene2Controller implements Initializable {
 
 		} catch (Exception ex) {
 			System.out.println("scene fail\n" + ex);
-			ex.printStackTrace();
 		}
 	}
 	

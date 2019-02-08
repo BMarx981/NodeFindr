@@ -186,8 +186,8 @@ public class XMLFileProcessor {
 		}
 	}
 	
-	public Document getDocument() {
-		return doc;
+	public Document getDocument(String name) {
+		return getDoc(name);
 	}
 	
 	private Document getDoc(String fileName) {
