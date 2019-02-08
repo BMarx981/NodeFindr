@@ -1,7 +1,11 @@
 package application;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
@@ -11,17 +15,25 @@ import org.controlsfx.control.ToggleSwitch;
 import org.w3c.dom.Node;
 
 import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class NodeFindrController implements Initializable {
 	
@@ -73,8 +85,10 @@ public class NodeFindrController implements Initializable {
 		if (fileName.equals("")) {
 			tf.setText("Please select a file to analyze");
 		} else if (nodeList.size() == 0) {
-			tf.setText("No matching nodes found.");
+			tf.setPromptText("No matching nodes found.");
 			ta2.setText("");
+			try {ta2.setText("No matching nodes found \n" + backgroundProcess(fileName).get()); }
+			catch (Exception e1) { e1.printStackTrace(); }
 		} else if (nodeList.size() > 0) {
 			ta2.setText(nodeList.size() + " out of " + xp.getNodesCount() + " nodes found.");
 			print(nodeList);
@@ -99,9 +113,8 @@ public class NodeFindrController implements Initializable {
 	private void processSelectedFile(String fileName) {
 		ta2.clear();
 		nodeList.clear();
-		Task<String> finished = xp.backgroundProcess(fileName);
 		try {
-			ta2.setText(finished.get());
+			ta2.setText(backgroundProcess(fileName).get());
 		} catch (InterruptedException e) {
 			System.out.println("That shit was interrupted");
 			e.printStackTrace();
@@ -134,6 +147,66 @@ public class NodeFindrController implements Initializable {
 		fileName = new String();
 		searchNode = new String();
 		nodeList = new ArrayList<Node>();
+	}
+	
+	public Task<String> backgroundProcess(String fileName){
+
+		ProgressBar pb = new ProgressBar();
+		pb.setPrefWidth(200.0d);
+		
+		VBox updatePane = new VBox();
+        updatePane.setPadding(new Insets(10));
+        updatePane.setSpacing(5.0d);
+        updatePane.getChildren().add(pb);
+		
+        Stage taskUpdateStage = new Stage(StageStyle.UTILITY);
+        taskUpdateStage.initModality(Modality.APPLICATION_MODAL);
+        taskUpdateStage.setScene(new Scene(updatePane));
+        taskUpdateStage.setTitle("Loading.");
+        
+		Task<String> processTask = new Task<String>() {
+
+			@Override
+			protected String call() throws Exception {
+				FileReader fileReader;
+				String processed = new String();
+				long total = Files.size(Paths.get(fileName));
+				long byteSize = 1;
+				try {
+					fileReader = new FileReader(fileName);
+					BufferedReader buffer = new BufferedReader(fileReader);
+					StringBuilder sb = new StringBuilder();
+					String line = buffer.readLine();
+					
+					while((line = buffer.readLine()) != null) {
+						sb.append(line).append("\n");
+						byte[] ba = line.getBytes();
+						byteSize += ba.length;
+//						System.out.println(byteSize + " byteSize\t" + total + " total");
+//						pb.setProgress(byteSize/total);
+						updateProgress(byteSize, total);
+						processed = sb.toString();
+					}
+					
+					buffer.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				return processed;
+			}
+		};
+        
+        pb.progressProperty().bind(processTask.progressProperty());
+		processTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent t) {
+                taskUpdateStage.hide();
+            }
+        });
+		
+		taskUpdateStage.show();
+        new Thread(processTask).start();
+		return processTask;
 	}
 
 }
