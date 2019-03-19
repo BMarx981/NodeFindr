@@ -4,9 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.StringWriter;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -28,17 +25,6 @@ import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import javafx.beans.property.Property;
-import javafx.concurrent.Task;
-import javafx.concurrent.WorkerStateEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.scene.Scene;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 public class XMLFileProcessor {
 	

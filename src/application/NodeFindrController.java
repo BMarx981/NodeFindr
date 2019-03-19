@@ -151,19 +151,6 @@ public class NodeFindrController implements Initializable {
 	
 	public Task<String> backgroundProcess(String fileName){
 
-		ProgressBar pb = new ProgressBar();
-		pb.setPrefWidth(200.0d);
-		
-		VBox updatePane = new VBox();
-        updatePane.setPadding(new Insets(10));
-        updatePane.setSpacing(5.0d);
-        updatePane.getChildren().add(pb);
-		
-        Stage taskUpdateStage = new Stage(StageStyle.UTILITY);
-        taskUpdateStage.initModality(Modality.APPLICATION_MODAL);
-        taskUpdateStage.setScene(new Scene(updatePane));
-        taskUpdateStage.setTitle("Loading.");
-        
 		Task<String> processTask = new Task<String>() {
 
 			@Override
@@ -195,7 +182,21 @@ public class NodeFindrController implements Initializable {
 				return processed;
 			}
 		};
-        
+		
+		ProgressBar pb = new ProgressBar();
+		pb.setPrefWidth(200.0d);
+		
+		VBox updatePane = new VBox();
+        updatePane.setPadding(new Insets(10));
+        updatePane.setSpacing(5.0d);
+        updatePane.getChildren().add(pb);
+		
+        Stage taskUpdateStage = new Stage(StageStyle.UTILITY);
+        taskUpdateStage.initModality(Modality.APPLICATION_MODAL);
+        taskUpdateStage.setScene(new Scene(updatePane));
+        taskUpdateStage.setTitle("Loading.");
+        taskUpdateStage.show();
+		
         pb.progressProperty().bind(processTask.progressProperty());
 		processTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
             @Override
@@ -204,9 +205,7 @@ public class NodeFindrController implements Initializable {
             }
         });
 		
-		taskUpdateStage.show();
         new Thread(processTask).start();
 		return processTask;
 	}
-
 }
